@@ -7,7 +7,16 @@ import { ThemeProvider } from './components/ThemeProvider'
 import City from './pages/City'
 import Dashboard from './pages/Dashboard'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+      gcTime: 1000 * 60 * 10,
+      refetchOnWindowFocus: false,
+      retry: false,
+    },
+  },
+})
 
 const App = () => {
   return (
