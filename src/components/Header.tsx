@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import Logo from './common/Logo'
+import ThemeSwitcher from './common/ThemeSwitcher'
 
 const Header = () => {
   return (
@@ -11,9 +12,9 @@ const Header = () => {
             <Logo />
           </Link>
         </div>
-        <div>
+        <div className="flex gap-4">
           {/* TODO: search */}
-          {/* TODO: theme switcher */}
+          <ThemeSwitcher />
         </div>
       </div>
     </header>

@@ -17,7 +17,7 @@ const Logo = () => {
           />
         </svg>
       </div>
-      <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-xl font-bold text-transparent transition-all duration-300 group-hover:from-primary/90 group-hover:to-secondary/90">
+      <span className="hidden bg-gradient-to-r from-primary to-secondary bg-clip-text text-xl font-bold text-transparent transition-all duration-300 group-hover:from-primary/90 group-hover:to-secondary/90 sm:block">
         WeatherApp
       </span>
     </div>
