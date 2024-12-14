@@ -1,10 +1,19 @@
-import { Button } from './components/ui/button'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
+import Layout from './components/Layout'
+import City from './pages/City'
+import Dashboard from './pages/Dashboard'
 
 const App = () => {
   return (
-    <div className="container mx-auto">
-      <Button>Click me</Button>
-    </div>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/city/:name" element={<City />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   )
 }
 export default App
