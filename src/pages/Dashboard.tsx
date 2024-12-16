@@ -1,5 +1,6 @@
 import { AlertTriangle, MapPin, RefreshCwIcon } from 'lucide-react'
 
+import { cn } from '@/lib/utils'
 import { useGeolocation } from '@/hooks/useGeolocation'
 import {
   useForecastQuery,
@@ -8,18 +9,21 @@ import {
 } from '@/hooks/useWeather'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
+import SkeletonWrapper from '@/components/common/SkeletonWrapper'
+import CurrentWeather from '@/components/features/weather/CurrentWeather'
+import WeatherSkeleton from '@/components/features/weather/WeatherSkeleton'
 
 const Dashboard = () => {
   const { coordinates, error, getLocation, isLoading } = useGeolocation()
 
-  const weaherQuery = useWeatherQuery(coordinates)
+  const weatherQuery = useWeatherQuery(coordinates)
   const forecastQuery = useForecastQuery(coordinates)
   const locationQuery = useReverseGeocodeQuery(coordinates)
 
   const handleRefresh = () => {
     getLocation()
     if (coordinates) {
-      weaherQuery.refetch()
+      weatherQuery.refetch()
       forecastQuery.refetch()
       locationQuery.refetch()
     }
@@ -41,13 +45,33 @@ const Dashboard = () => {
     )
   }
 
+  const locationName = locationQuery.data?.[0]
+
+  const isLoadingData = weatherQuery.isLoading || forecastQuery.isLoading
+
+  if (!weatherQuery.data || !forecastQuery.data) {
+    return <WeatherSkeleton />
+  }
+
   return (
-    <div className="">
+    <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tighter">My Location</h1>
-        <Button variant={'outline'} size={'icon'} onClick={handleRefresh}>
-          <RefreshCwIcon />
+        <Button
+          variant={'outline'}
+          size={'icon'}
+          onClick={handleRefresh}
+          disabled={isLoadingData}
+        >
+          <RefreshCwIcon
+            className={cn('h-4 w-4', isLoadingData && 'animate-spin')}
+          />
         </Button>
+      </div>
+      <div className="grid gap-6">
+        <SkeletonWrapper isLoading={isLoadingData}>
+          <CurrentWeather data={weatherQuery.data} location={locationName} />
+        </SkeletonWrapper>
       </div>
     </div>
   )
