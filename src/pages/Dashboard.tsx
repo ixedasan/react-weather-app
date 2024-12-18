@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import SkeletonWrapper from '@/components/common/SkeletonWrapper'
 import CurrentWeather from '@/components/features/weather/CurrentWeather'
 import Temperature from '@/components/features/weather/Temperature'
+import WeatherDetails from '@/components/features/weather/WeatherDetails'
 import WeatherSkeleton from '@/components/features/weather/WeatherSkeleton'
 
 const Dashboard = () => {
@@ -76,6 +77,9 @@ const Dashboard = () => {
           </SkeletonWrapper>
 
           <Temperature data={forecastQuery.data} />
+        </div>
+        <div>
+          <WeatherDetails data={weatherQuery.data} />
         </div>
       </div>
     </div>
