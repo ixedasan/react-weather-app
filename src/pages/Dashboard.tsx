@@ -11,6 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import SkeletonWrapper from '@/components/common/SkeletonWrapper'
 import CurrentWeather from '@/components/features/weather/CurrentWeather'
+import Temperature from '@/components/features/weather/Temperature'
 import WeatherSkeleton from '@/components/features/weather/WeatherSkeleton'
 
 const Dashboard = () => {
@@ -54,7 +55,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tighter">My Location</h1>
         <Button
@@ -69,9 +70,13 @@ const Dashboard = () => {
         </Button>
       </div>
       <div className="grid gap-6">
-        <SkeletonWrapper isLoading={isLoadingData}>
-          <CurrentWeather data={weatherQuery.data} location={locationName} />
-        </SkeletonWrapper>
+        <div className="flex flex-col gap-4 lg:flex-row">
+          <SkeletonWrapper isLoading={isLoadingData}>
+            <CurrentWeather data={weatherQuery.data} location={locationName} />
+          </SkeletonWrapper>
+
+          <Temperature data={forecastQuery.data} />
+        </div>
       </div>
     </div>
   )

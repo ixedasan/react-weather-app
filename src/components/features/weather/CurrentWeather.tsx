@@ -26,7 +26,7 @@ const CurrentWeather = ({ data, location }: Props) => {
         <div className="flex items-center gap-2">
           <MapPin className="h-5 w-5 text-primary" />
           <div>
-            <div className="flex items-baseline gap-1.5">
+            <div className="flex items-baseline gap-2">
               <h2 className="text-2xl font-bold tracking-tight">
                 {location?.name}
               </h2>
@@ -35,10 +35,10 @@ const CurrentWeather = ({ data, location }: Props) => {
                   {location.state}
                 </span>
               )}
+              <p className="text-sm font-medium text-muted-foreground">
+                {location?.country}
+              </p>
             </div>
-            <p className="text-sm font-medium text-muted-foreground">
-              {location?.country}
-            </p>
           </div>
         </div>
       </CardHeader>
@@ -56,15 +56,15 @@ const CurrentWeather = ({ data, location }: Props) => {
               </div>
               <div className="rounded-lg bg-muted/50 p-3">
                 <div className="space-y-2 text-sm font-medium">
+                  <span className="flex items-center gap-1.5 text-red-500">
+                    <ArrowUp className="h-4 w-4" />
+                    {formattedTemp(temp_max)}
+                  </span>
                   <span className="flex items-center gap-1.5 text-blue-500">
                     <ArrowDown className="h-4 w-4" />
                     {formattedTemp(temp_min)}
                   </span>
                   <Separator className="my-1" />
-                  <span className="flex items-center gap-1.5 text-red-500">
-                    <ArrowUp className="h-4 w-4" />
-                    {formattedTemp(temp_max)}
-                  </span>
                 </div>
               </div>
             </div>
