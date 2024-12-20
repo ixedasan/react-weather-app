@@ -11,6 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import SkeletonWrapper from '@/components/common/SkeletonWrapper'
 import CurrentWeather from '@/components/features/weather/CurrentWeather'
+import Forecast from '@/components/features/weather/Forecast'
 import Temperature from '@/components/features/weather/Temperature'
 import WeatherDetails from '@/components/features/weather/WeatherDetails'
 import WeatherSkeleton from '@/components/features/weather/WeatherSkeleton'
@@ -49,7 +50,7 @@ const Dashboard = () => {
 
   const locationName = locationQuery.data?.[0]
 
-  const isLoadingData = weatherQuery.isLoading || forecastQuery.isLoading
+  const isLoadingData = weatherQuery.isFetching || forecastQuery.isFetching
 
   if (!weatherQuery.data || !forecastQuery.data) {
     return <WeatherSkeleton />
@@ -78,11 +79,13 @@ const Dashboard = () => {
 
           <Temperature data={forecastQuery.data} />
         </div>
-        <div>
+        <div className="grid items-start gap-6 md:grid-cols-2">
           <WeatherDetails data={weatherQuery.data} />
+          <Forecast data={forecastQuery.data} />
         </div>
       </div>
     </div>
   )
 }
+
 export default Dashboard

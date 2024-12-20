@@ -32,7 +32,7 @@ const CurrentWeather = ({ data, location }: Props) => {
               </h2>
               {location?.state && (
                 <span className="text-base text-muted-foreground">
-                  {location.state}
+                  {location?.state}
                 </span>
               )}
               <p className="text-sm font-medium text-muted-foreground">
