@@ -10,6 +10,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import SkeletonWrapper from '@/components/common/SkeletonWrapper'
+import FavoriteCities from '@/components/features/city/FavoritesCities'
 import CurrentWeather from '@/components/features/weather/CurrentWeather'
 import Forecast from '@/components/features/weather/Forecast'
 import Temperature from '@/components/features/weather/Temperature'
@@ -58,6 +59,7 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6">
+      <FavoriteCities />
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tighter">My Location</h1>
         <Button

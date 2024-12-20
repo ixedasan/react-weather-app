@@ -1,50 +1,61 @@
-# React + TypeScript + Vite
+# React Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern weather application built with React, TypeScript, and TailwindCSS that provides real-time weather information and forecasts.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🌡️ Real-time weather data and forecasts
+- 📍 Geolocation support
+- 🔍 City search functionality
+- ⭐ Favorite locations
+- 📱 Responsive design
+- 🌓 Dark/Light theme support
+- 📊 Interactive weather charts
+- 🕒 Search history
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [React Query](https://tanstack.com/query)
+- [React Router](https://reactrouter.com/)
+- [Recharts](https://recharts.org/)
+- [shadcn](https://ui.shadcn.com/)
+- [OpenWeather API](https://openweathermap.org/api)
 
-- Configure the top-level `parserOptions` property like this:
+To clone and run this application, you'll need [Git](https://git-scm.com/) and [Bun](https://bun.sh/) installed on your computer. From your command line:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+# Clone this repository
+$ git clone https://github.com/ixedasan/website-chat
+
+# Navigate to the project directory
+$ cd website-chat
+
+# Install dependencies
+$ bun install
+
+# Set up environment variables
+$ cp .env.example .env
+
+# Start the development server
+$ bun dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Project Structure
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+src/
+├── api/          # API integration and types
+├── components/   # React components
+├── hooks/        # Custom React hooks
+├── lib/          # Utility functions
+├── pages/        # Application pages/routes
+└── App.tsx       # Main application component
 ```
+
+## Contribution
+
+Contributions are welcome! Please feel free to submit a pull request or open an issue for discussion.
