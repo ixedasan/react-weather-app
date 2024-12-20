@@ -18,7 +18,7 @@ import WeatherDetails from '@/components/features/weather/WeatherDetails'
 import WeatherSkeleton from '@/components/features/weather/WeatherSkeleton'
 
 const Dashboard = () => {
-  const { coordinates, error, getLocation, isLoading } = useGeolocation()
+  const { coordinates, error, getLocation } = useGeolocation()
 
   const weatherQuery = useWeatherQuery(coordinates)
   const forecastQuery = useForecastQuery(coordinates)
