@@ -2,6 +2,11 @@
 
 A modern weather application built with React, TypeScript, and TailwindCSS that provides real-time weather information and forecasts.
 
+## Preview
+
+![preview](./public/preview/dark-theme.png)
+![preview](./public/preview/white-theme.png)
+
 ## Features
 
 - 🌡️ Real-time weather data and forecasts
