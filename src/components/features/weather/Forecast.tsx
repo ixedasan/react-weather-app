@@ -1,7 +1,8 @@
 import type { ForecastData } from '@/api/types'
 import { format } from 'date-fns'
-import { ArrowDown, ArrowUp, Droplets, Wind } from 'lucide-react'
+import { ArrowDown, ArrowUp, Calendar, Droplets, Wind } from 'lucide-react'
 
+import { cn } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface Props {
@@ -15,96 +16,139 @@ interface DailyForecast {
   humidity: number
   wind: number
   weather: {
-    id: number
-    main: string
     description: string
-    icon: string
   }
 }
 
 const Forecast = ({ data }: Props) => {
-  // Group forecast by day and get daily min/max
-  const dailyForecasts = data.list.reduce(
-    (acc, forecast) => {
-      const date = format(new Date(forecast.dt * 1000), 'yyyy-MM-dd')
+  const dailyForecasts = Object.values(
+    data.list.reduce<Record<string, DailyForecast>>((acc, forecast) => {
+      const dateKey = format(new Date(forecast.dt * 1000), 'yyyy-MM-dd')
 
-      if (!acc[date]) {
-        acc[date] = {
+      if (!acc[dateKey]) {
+        acc[dateKey] = {
+          date: forecast.dt,
           temp_min: forecast.main.temp_min,
           temp_max: forecast.main.temp_max,
           humidity: forecast.main.humidity,
           wind: forecast.wind.speed,
           weather: forecast.weather[0],
-          date: forecast.dt,
         }
       } else {
-        acc[date].temp_min = Math.min(
-          acc[date].temp_min,
+        acc[dateKey].temp_min = Math.min(
+          acc[dateKey].temp_min,
           forecast.main.temp_min,
         )
-        acc[date].temp_max = Math.max(
-          acc[date].temp_max,
+        acc[dateKey].temp_max = Math.max(
+          acc[dateKey].temp_max,
           forecast.main.temp_max,
         )
       }
 
       return acc
-    },
-    {} as Record<string, DailyForecast>,
-  )
-
-  const nextDays = Object.values(dailyForecasts).slice(1, 4)
-
-  const formatTemp = (temp: number) => `${Math.round(temp)}°`
+    }, {}),
+  ).slice(1, 6)
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>3 Day Forecast</CardTitle>
+    <Card className="overflow-hidden bg-gradient-to-br from-background to-muted/50">
+      <CardHeader className="space-y-1 pb-8">
+        <CardTitle className="text-2xl font-bold tracking-tight">
+          5 Day Forecast
+        </CardTitle>
+        <p className="text-sm text-muted-foreground">
+          Weather forecast for the next three days
+        </p>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4">
-          {nextDays.map(day => (
-            <div
-              key={day.date}
-              className="grid grid-cols-3 items-center gap-4 rounded-lg border p-4"
-            >
-              <div>
-                <p className="font-medium">
-                  {format(new Date(day.date * 1000), 'EEE, MMM d')}
-                </p>
-                <p className="text-sm capitalize text-muted-foreground">
-                  {day.weather.description}
-                </p>
-              </div>
-
-              <div className="flex justify-center gap-4">
-                <span className="flex items-center text-red-500">
-                  <ArrowUp className="mr-1 h-4 w-4" />
-                  {formatTemp(day.temp_max)}
-                </span>
-                <span className="flex items-center text-blue-500">
-                  <ArrowDown className="mr-1 h-4 w-4" />
-                  {formatTemp(day.temp_min)}
-                </span>
-              </div>
-
-              <div className="flex justify-end gap-4">
-                <span className="flex items-center gap-1">
-                  <Droplets className="h-4 w-4 text-blue-500" />
-                  <span className="text-sm">{day.humidity}%</span>
-                </span>
-                <span className="flex items-center gap-1">
-                  <Wind className="h-4 w-4 text-blue-500" />
-                  <span className="text-sm">{day.wind}m/s</span>
-                </span>
-              </div>
-            </div>
+        <div
+          className="flex flex-col gap-4"
+          role="list"
+          aria-label="Weather forecast"
+        >
+          {dailyForecasts.map(day => (
+            <ForecastCard key={day.date} day={day} />
           ))}
         </div>
       </CardContent>
     </Card>
   )
 }
+
+const ForecastCard = ({ day }: { day: DailyForecast }) => {
+  return (
+    <div
+      className="group relative h-full overflow-hidden rounded-xl border bg-gradient-to-br from-white/50 to-white/30 p-6 shadow-lg transition-all hover:shadow-xl dark:from-gray-800/50 dark:to-gray-900/30"
+      role="listitem"
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="relative grid grid-cols-3 items-center gap-4">
+        <div className="flex items-center gap-4">
+          <div
+            className={cn(
+              'rounded-lg p-2.5',
+              'bg-gradient-to-br from-primary/10 to-primary/5',
+            )}
+          >
+            <Calendar className="h-6 w-6 text-primary transition-transform duration-300 group-hover:scale-110" />
+          </div>
+          <div className="space-y-1">
+            <p className="font-semibold tracking-tight">
+              {format(new Date(day.date * 1000), 'EEE, MMM d')}
+            </p>
+            <p className="line-clamp-1 text-sm capitalize text-muted-foreground">
+              {day.weather.description}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center gap-4">
+          <TemperatureDisplay
+            icon={ArrowUp}
+            value={day.temp_max}
+            className="text-red-500"
+          />
+          <TemperatureDisplay
+            icon={ArrowDown}
+            value={day.temp_min}
+            className="text-blue-500"
+          />
+        </div>
+
+        <div className="flex items-center justify-end gap-4">
+          <WeatherDetail icon={Droplets} value={`${day.humidity}%`} />
+          <WeatherDetail icon={Wind} value={`${day.wind} m/s`} />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const TemperatureDisplay = ({
+  icon: Icon,
+  value,
+  className,
+}: {
+  icon: typeof ArrowUp
+  value: number
+  className: string
+}) => (
+  <div className={`flex items-center gap-2 ${className}`}>
+    <Icon className="h-4 w-4" />
+    <span className="font-semibold">{Math.round(value)}°</span>
+  </div>
+)
+
+const WeatherDetail = ({
+  icon: Icon,
+  value,
+}: {
+  icon: typeof Droplets
+  value: string
+}) => (
+  <div className="flex items-center gap-2">
+    <Icon className="h-4 w-4 text-blue-500" />
+    <span className="text-sm text-muted-foreground">{value}</span>
+  </div>
+)
 
 export default Forecast
