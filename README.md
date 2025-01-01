@@ -34,10 +34,10 @@ To clone and run this application, you'll need [Git](https://git-scm.com/) and [
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/ixedasan/website-chat
+$ git clone https://github.com/ixedasan/react-weather-app.git
 
 # Navigate to the project directory
-$ cd website-chat
+$ cd react-weather-app
 
 # Install dependencies
 $ bun install
